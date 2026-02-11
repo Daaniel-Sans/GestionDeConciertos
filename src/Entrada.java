@@ -44,6 +44,28 @@ public class Entrada {
         this.tipo = tipo;
     }
 
+    //Métodos
+
+    public double getPrecioTotal() {
+
+        double precioBase = concierto.getPrecioBase();
+
+        if (tipo == TipoEntrada.PISTA) {
+            return precioBase * 1.10;
+        } else if (tipo == TipoEntrada.VIP) {
+            return precioBase * 1.20;
+        } else {
+            return precioBase;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Entrada de " + getPrecioTotal() + " €";
+    }
+
+    }
+
     //=========Equals y HashCode=========
 
     @Override
