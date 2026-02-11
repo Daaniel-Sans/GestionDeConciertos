@@ -67,16 +67,18 @@ public class Entrada {
 
     @Override
     public boolean equals(Object o) {
-        //Comprobación de identidad añadida después de usar el generador automático de IntelliJ
         if (this == o) return true;
-        //El metodo equals como venía por defecto.
         if (o == null || getClass() != o.getClass()) return false;
         Entrada entrada = (Entrada) o;
-        return Objects.equals(concierto, entrada.concierto) && tipo == entrada.tipo;
+        // He vuelto a crear el equals sin el objeto concierto completo para evitar la excepcion StackOverflow
+        return tipo == entrada.tipo &&
+                Objects.equals(concierto.getArtista(), entrada.concierto.getArtista()) &&
+                Objects.equals(concierto.getCiudad(), entrada.concierto.getCiudad());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(concierto, tipo);
+        // He vuelto a crear el hashCode usando solo datos simples para evitar la excepcion StackOverflow
+        return Objects.hash(concierto.getArtista(), concierto.getCiudad(), tipo);
     }
 }

@@ -138,13 +138,16 @@ public class Usuario {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return edad == usuario.edad && Objects.equals(nombre, usuario.nombre) && Objects.equals(entradasCompradas, usuario.entradasCompradas) && Objects.equals(conciertosAsistidos, usuario.conciertosAsistidos) && Objects.equals(valoraciones, usuario.valoraciones);
+        // He vuelto a crear el equals sin las listas ni el mapa para evitar el StackOverflow
+        return edad == usuario.edad && Objects.equals(nombre, usuario.nombre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nombre, edad, entradasCompradas, conciertosAsistidos, valoraciones);
+        // He vuelto a crear el hashCode solo con nombre y edad para evitar que el programa se cuelgue
+        return Objects.hash(nombre, edad);
     }
 }

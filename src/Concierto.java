@@ -109,13 +109,16 @@ public class Concierto {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Concierto concierto = (Concierto) o;
-        return Double.compare(precioBase, concierto.precioBase) == 0 && aforoMaximo == concierto.aforoMaximo && activo == concierto.activo && Objects.equals(artista, concierto.artista) && Objects.equals(ciudad, concierto.ciudad) && Objects.equals(entradasVendidas, concierto.entradasVendidas);
+        // He vuelto a crear el equals sin la lista de entradas para evitar errores de memoria
+        return Double.compare(concierto.precioBase, precioBase) == 0 && aforoMaximo == concierto.aforoMaximo && activo == concierto.activo && Objects.equals(artista, concierto.artista) && Objects.equals(ciudad, concierto.ciudad);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(artista, ciudad, precioBase, aforoMaximo, entradasVendidas, activo);
+        // He vuelto a crear el hashCode sin la lista de entradas para que el Main funcione
+        return Objects.hash(artista, ciudad, precioBase, aforoMaximo, activo);
     }
 }
