@@ -1,5 +1,5 @@
-import static org.junit.jupiter.api.Assertions.*; // Importa assertThrows y assertEquals
-import org.junit.jupiter.api.Test; // Importa la anotación @Test
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import java.util.*;
 
 class UsuarioTest {

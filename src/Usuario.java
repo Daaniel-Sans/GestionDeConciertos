@@ -28,7 +28,7 @@ public class Usuario {
         this.valoraciones = valoraciones;
     }
 
-    //Getters y setters
+    //======================Getters y setters=====================
 
     public String getNombre() {
         return nombre;
@@ -70,7 +70,7 @@ public class Usuario {
         this.valoraciones = valoraciones;
     }
 
-    //Métodos extra
+    //============================Métodos extra=======================
 
         // 1. Comprar una entrada
     public void comprarEntrada(Concierto concierto, Entrada.TipoEntrada tipo) {
@@ -128,13 +128,14 @@ public class Usuario {
         System.out.println("Valoración guardada: " + valoracion);
     }
 
+    //============================toString==============================
     @Override
     public String toString() {
         return nombre + " (ha asistido a " + conciertosAsistidos.size() + " conciertos)";
     }
 
 
-    //Equals y hashCode
+    //===========================Equals y hashCode========================
 
     @Override
     public boolean equals(Object o) {

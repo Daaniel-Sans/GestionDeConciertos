@@ -43,7 +43,7 @@ public class Entrada {
         this.tipo = tipo;
     }
 
-    //Métodos
+    //=====================Métodos extra========================
 
     public double getPrecioTotal() {
 
@@ -57,7 +57,7 @@ public class Entrada {
             return precioBase;
         }
     }
-
+    //=====================toString=====================
     @Override
     public String toString() {
         return "Entrada de " + getPrecioTotal() + " €";

@@ -28,7 +28,7 @@ public class Concierto {
         this.activo = activo;
     }
 
-    //Getters y setters
+    //=============Getters y setters=================
 
     public String getArtista() {
         return artista;
@@ -78,7 +78,7 @@ public class Concierto {
         this.activo = activo;
     }
 
-    //Métodos extra
+    //=====================Métodos extra===================
 
     public double calcularRecaudacion() {
         double total = 0;
@@ -99,13 +99,13 @@ public class Concierto {
         return aforoMaximo - entradasVendidas.size();
     }
 
-    //toString
+    //========================toString=================
     @Override
     public String toString() {
         return "Concierto de " + artista + " en " + ciudad;
     }
 
-    //Equals y hashCode
+    //=====================Equals y hashCode=================
 
     @Override
     public boolean equals(Object o) {
