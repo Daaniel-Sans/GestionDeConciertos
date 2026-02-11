@@ -13,7 +13,6 @@ public class Entrada {
     private TipoEntrada tipo;
 
 
-
     //Constructor vacío
 
     public Entrada() {
@@ -62,8 +61,6 @@ public class Entrada {
     @Override
     public String toString() {
         return "Entrada de " + getPrecioTotal() + " €";
-    }
-
     }
 
     //=========Equals y HashCode=========
