@@ -15,6 +15,14 @@ public class Main {
         Usuario u2 = new Usuario("Joaquín", 55, new ArrayList<>(), new HashSet<>(), new HashMap<>());
         Usuario u3 = new Usuario("Cristina", 24, new ArrayList<>(), new HashSet<>(), new HashMap<>());
 
+        // 3. Cada usuario compra entradas para 2 conciertos
+        u1.comprarEntrada(c1, Entrada.TipoEntrada.VIP);
+        u1.comprarEntrada(c3, Entrada.TipoEntrada.PISTA);
 
+        u2.comprarEntrada(c2, Entrada.TipoEntrada.GRADA);
+        u2.comprarEntrada(c3, Entrada.TipoEntrada.VIP);
+
+        u3.comprarEntrada(c1, Entrada.TipoEntrada.PISTA);
+        u3.comprarEntrada(c2, Entrada.TipoEntrada.GRADA);
     }
 }
