@@ -26,9 +26,16 @@ public class Main {
         u3.comprarEntrada(c2, Entrada.TipoEntrada.GRADA);
 
         // 4. Cada usuario valora 1 concierto de los que ha asistido
-        u1.valorar(c3, 10);
-        u2.valorar(c2, 9);
-        u3.valorar(c1, 9);
+        try {
+            u1.valorar(c3, 10);
+            u2.valorar(c2, 9);
+            u3.valorar(c1, 9);
+            u1.valorar(null, 5);
+
+        } catch (Exception e) {
+
+            System.out.println("\n[!] Error capturado: " + e.getMessage());
+        }
 
 
         // ESTADÍSTICAS. He usado string.format y %.2f en algunos prints para formatear el número y mostrar siempre 2 decimales

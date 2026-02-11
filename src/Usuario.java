@@ -109,12 +109,12 @@ public class Usuario {
     }
 
         // 2. Valorar un concierto
-    public void valorar(Concierto concierto, int valoracion) {
+    public void valorar(Concierto concierto, int valoracion) throws Exception {
 
         // 2.1 Comprobar si asistió al concierto
-        if (!conciertosAsistidos.contains(concierto)) {
-            System.out.println("Error: No puedes valorar un concierto al que no has asistido.");
-            return;
+        if (concierto == null || !conciertosAsistidos.contains(concierto)) {
+            // 2. LANZAMOS la excepción en lugar de solo imprimir
+            throw new Exception("No puedes valorar un concierto al que no has asistido.");
         }
 
         // 2.2 Comprobar que la nota esté entre 0 y 10
