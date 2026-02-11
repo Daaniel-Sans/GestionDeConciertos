@@ -105,7 +105,7 @@ public class Usuario {
         // 1.7 Añadir el concierto a la lista de asistidos
         this.conciertosAsistidos.add(concierto);
 
-        System.out.println("¡Entrada comprada con éxito para " + concierto.getArtista() + "!");
+        System.out.println(this.nombre + " ha comprado con éxito una entrada de tipo " + tipo + " para " + concierto.getArtista() + "!");
     }
 
         // 2. Valorar un concierto
