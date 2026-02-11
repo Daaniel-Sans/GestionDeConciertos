@@ -24,5 +24,11 @@ public class Main {
 
         u3.comprarEntrada(c1, Entrada.TipoEntrada.PISTA);
         u3.comprarEntrada(c2, Entrada.TipoEntrada.GRADA);
+
+        // 4. Cada usuario valora 1 concierto de los que ha asistido
+        u1.valorar(c3, 10);
+        u2.valorar(c2, 9);
+        u3.valorar(c1, 9);
+
     }
 }
