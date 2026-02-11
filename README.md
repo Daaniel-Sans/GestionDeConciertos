@@ -1,4 +1,4 @@
-# Actividad 1: Gestión de Conciertos 🎸
+# Actividad 1: Gestión de Conciertos
 
 
 ## 📝 Contexto
