@@ -70,6 +70,70 @@ public class Usuario {
         this.valoraciones = valoraciones;
     }
 
+    //Métodos extra
+
+        // 1. Comprar una entrada
+    public void comprarEntrada(Concierto concierto, Entrada.TipoEntrada tipo) {
+
+        // 1.1 Comprobar si el concierto está activo
+        if (!concierto.isActivo()) {
+            System.out.println("Error: El concierto no está activo.");
+            return;
+        }
+
+        // 1.2 Comprobar si el usuario ya ha asistido (está en el HashSet)
+        if (conciertosAsistidos.contains(concierto)) {
+            System.out.println("Error: Ya has asistido a este concierto.");
+            return;
+        }
+
+        // 1.3 Comprobar si hay entradas disponibles
+        if (concierto.entradasDisponibles() <= 0) {
+            System.out.println("Error: No quedan entradas disponibles.");
+            return;
+        }
+
+        // 1.4 Crear el objeto Entrada
+        Entrada nuevaEntrada = new Entrada(concierto, tipo);
+
+        // 1.5 Añadir la entrada al concierto
+        concierto.getEntradasVendidas().add(nuevaEntrada);
+
+        // 1.6 Añadir la entrada al usuario
+        this.entradasCompradas.add(nuevaEntrada);
+
+        // 1.7 Añadir el concierto a la lista de asistidos
+        this.conciertosAsistidos.add(concierto);
+
+        System.out.println("¡Entrada comprada con éxito para " + concierto.getArtista() + "!");
+    }
+
+        // 2. Valorar un concierto
+    public void valorar(Concierto concierto, int valoracion) {
+
+        // 2.1 Comprobar si asistió al concierto
+        if (!conciertosAsistidos.contains(concierto)) {
+            System.out.println("Error: No puedes valorar un concierto al que no has asistido.");
+            return;
+        }
+
+        // 2.2 Comprobar que la nota esté entre 0 y 10
+        if (valoracion < 0 || valoracion > 10) {
+            System.out.println("Error: La valoración debe estar entre 0 y 10.");
+            return;
+        }
+
+        // 2.3 Añadir o modificar la valoración en el HashMap
+        valoraciones.put(concierto, valoracion);
+        System.out.println("Valoración guardada: " + valoracion);
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " (ha asistido a " + conciertosAsistidos.size() + " conciertos)";
+    }
+
+
     //Equals y hashCode
 
     @Override
