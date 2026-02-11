@@ -1,10 +1,13 @@
+import java.util.Objects;
+
 public class Entrada {
 
     //Atributos concierto (de tipo Concierto)
+
     public enum TipoEntrada { PISTA, GRADA, VIP }
 
     /*Atributo tipo (enumerado que puede ser Pista, Grada o VIP).
-    Yo llamaré tipoEntrada al tipo para evitar redundancias.*/
+    Yo llamaré tipoEntrada al tipo (de dato) para evitar redundancias.*/
 
     private Concierto concierto;
     private TipoEntrada tipo;
@@ -12,15 +15,49 @@ public class Entrada {
 
 
     //Constructor vacío
+
     public Entrada() {
     }
 
     //Constructor completo
+
     public Entrada(Concierto concierto, TipoEntrada tipo) {
         this.concierto = concierto;
         this.tipo = tipo;
     }
 
+    //=======Getters y Setters========
 
+    public Concierto getConcierto() {
+        return concierto;
+    }
 
+    public void setConcierto(Concierto concierto) {
+        this.concierto = concierto;
+    }
+
+    public TipoEntrada getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoEntrada tipo) {
+        this.tipo = tipo;
+    }
+
+    //=========Equals y HashCode=========
+
+    @Override
+    public boolean equals(Object o) {
+        //Comprobación de identidad añadida después de usar el generador automático de IntelliJ
+        if (this == o) return true;
+        //El metodo equals como venía por defecto.
+        if (o == null || getClass() != o.getClass()) return false;
+        Entrada entrada = (Entrada) o;
+        return Objects.equals(concierto, entrada.concierto) && tipo == entrada.tipo;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(concierto, tipo);
+    }
 }
