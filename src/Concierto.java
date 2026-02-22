@@ -1,3 +1,4 @@
+import exceptions.CeroEntradasException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -88,9 +89,9 @@ public class Concierto {
         return total;
     }
 
-    public double calcularPrecioMedio() {
+    public double calcularPrecioMedio() throws CeroEntradasException {
         if (entradasVendidas.isEmpty()) {
-            return 0; // Si el concierto se acaba de crear y no hay entradas vendidas devuelverá 0. Con esto trato de evitar que se divida por 0 y se lance una excepción
+            throw new CeroEntradasException("No se puede calcular el precio medio: el concierto no tiene entradas vendidas.");
         }
         return calcularRecaudacion() / entradasVendidas.size();
     }
