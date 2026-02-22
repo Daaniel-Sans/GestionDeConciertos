@@ -1,3 +1,4 @@
+import exceptions.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -5,40 +6,72 @@ import java.util.HashSet;
 public class Main {
     public static void main(String[] args) {
 
-        // 1. Crear 3 conciertos
         Concierto c1 = new Concierto("Perrate de Utrera", "Utrera", 40.0, 80, new ArrayList<>(), true);
         Concierto c2 = new Concierto("David Palomar", "Cádiz", 35.0, 120, new ArrayList<>(), true);
         Concierto c3 = new Concierto("Estrella Morente", "Granada", 55.0, 150, new ArrayList<>(), true);
 
-        // 2. Crear 3 usuarios
         Usuario u1 = new Usuario("Rocío", 29, new ArrayList<>(), new HashSet<>(), new HashMap<>());
         Usuario u2 = new Usuario("Joaquín", 55, new ArrayList<>(), new HashSet<>(), new HashMap<>());
         Usuario u3 = new Usuario("Cristina", 24, new ArrayList<>(), new HashSet<>(), new HashMap<>());
 
-        // 3. Cada usuario compra entradas para 2 conciertos
-        u1.comprarEntrada(c1, Entrada.TipoEntrada.VIP);
-        u1.comprarEntrada(c3, Entrada.TipoEntrada.PISTA);
+        // Captura de excepciones en el flujo normal de compra
+        System.out.println("--- PROCESANDO COMPRAS INICIALES ---");
+        try {
+            u1.comprarEntrada(c1, Entrada.TipoEntrada.VIP);
+            u1.comprarEntrada(c3, Entrada.TipoEntrada.PISTA);
+            u2.comprarEntrada(c2, Entrada.TipoEntrada.GRADA);
+            u2.comprarEntrada(c3, Entrada.TipoEntrada.VIP);
+            u3.comprarEntrada(c1, Entrada.TipoEntrada.PISTA);
+            u3.comprarEntrada(c2, Entrada.TipoEntrada.GRADA);
+        } catch (ConciertoInactivoException | ConciertoYaAsistidoException | AforoCompletoException e) {
+            System.out.println("Error en compras iniciales: " + e.getMessage());
+        }
 
-        u2.comprarEntrada(c2, Entrada.TipoEntrada.GRADA);
-        u2.comprarEntrada(c3, Entrada.TipoEntrada.VIP);
+        // SECCIÓN DE PRUEBAS: Provocar el lanzamiento de las excepciones y capturarlas con mensajes amigables
+        System.out.println("\n--- PROVOCANDO LANZAMIENTO DE EXCEPCIONES ---");
 
-        u3.comprarEntrada(c1, Entrada.TipoEntrada.PISTA);
-        u3.comprarEntrada(c2, Entrada.TipoEntrada.GRADA);
+        // ValoracionIncorrectaException
+        try {
+            System.out.print("Probando valoración incorrecta (nota 15): ");
+            u1.valorar(c1, 15);
+        } catch (ValoracionIncorrectaException | ConciertoNoAsistidoException e) {
+            System.out.println("CAPTURADA -> " + e.getMessage());
+        }
 
-        // 4. Cada usuario valora 1 concierto de los que ha asistido
+        // ConciertoYaAsistidoException
+        try {
+            System.out.print("Probando compra duplicada: ");
+            u1.comprarEntrada(c1, Entrada.TipoEntrada.PISTA);
+        } catch (ConciertoYaAsistidoException | ConciertoInactivoException | AforoCompletoException e) {
+            System.out.println("CAPTURADA -> " + e.getMessage());
+        }
+
+        // ConciertoInactivoException
+        try {
+            System.out.print("Probando concierto inactivo: ");
+            c2.setActivo(false);
+            u1.comprarEntrada(c2, Entrada.TipoEntrada.GRADA);
+        } catch (ConciertoInactivoException | ConciertoYaAsistidoException | AforoCompletoException e) {
+            System.out.println("CAPTURADA -> " + e.getMessage());
+        }
+
+        // CeroEntradasException
+        try {
+            System.out.print("Probando cálculo precio medio sin ventas: ");
+            Concierto cVacio = new Concierto("Nuevo Artista", "Sevilla", 20.0, 10, new ArrayList<>(), true);
+            cVacio.calcularPrecioMedio();
+        } catch (CeroEntradasException e) {
+            System.out.println("CAPTURADA -> " + e.getMessage());
+        }
+
+        System.out.println("\n--- REGISTRANDO VALORACIONES REALES ---");
         try {
             u1.valorar(c3, 10);
             u2.valorar(c2, 9);
             u3.valorar(c1, 9);
-            u1.valorar(null, 5);
-
-        } catch (Exception e) {
-
-            System.out.println("\n[!] Error capturado: " + e.getMessage());
+        } catch (ConciertoNoAsistidoException | ValoracionIncorrectaException e) {
+            System.out.println("[!] Error capturado: " + e.getMessage());
         }
-
-
-        // ESTADÍSTICAS. He usado string.format y %.2f en algunos prints para formatear el número y mostrar siempre 2 decimales
 
         int totalEntradas = 0;
         int totalPista = 0, totalGrada = 0, totalVIP = 0;
@@ -52,6 +85,7 @@ public class Main {
         Concierto masVendido = c1;
         Concierto menosVendido = c1;
 
+        System.out.println("\n========== ESTADÍSTICAS DE CONCIERTOS ==========");
         for (Concierto c : cartelera) {
             int cantidadVendida = c.getEntradasVendidas().size();
             totalEntradas += cantidadVendida;
@@ -65,10 +99,17 @@ public class Main {
 
             if (cantidadVendida > masVendido.getEntradasVendidas().size()) masVendido = c;
             if (cantidadVendida < menosVendido.getEntradasVendidas().size()) menosVendido = c;
+
+            //CeroEntradasException
+            try {
+                double precioM = c.calcularPrecioMedio();
+                System.out.println(c.getArtista() + " - Precio medio: " + String.format("%.2f", precioM) + "€");
+            } catch (CeroEntradasException e) {
+                System.out.println(c.getArtista() + " - Precio medio: N/A (" + e.getMessage() + ")");
+            }
         }
 
-
-        System.out.println("\n========== ESTADÍSTICAS DE CONCIERTOS ==========");
+        System.out.println("------------------------------------------------");
         System.out.println("Número de entradas vendidas en total: " + totalEntradas);
         System.out.println("Entradas por tipo -> Pista: " + totalPista + " | Grada: " + totalGrada + " | VIP: " + totalVIP);
         System.out.println("Recaudación total: " + String.format("%.2f", recaudacionTotal) + "€");
@@ -78,8 +119,8 @@ public class Main {
             System.out.println("Precio medio de las entradas: " + String.format("%.2f", precioMedioGlobal) + "€");
         }
 
-        System.out.println("Concierto con más entradas vendidas: " + masVendido.getArtista() + " (" + masVendido.getEntradasVendidas().size() + " entradas)");
-        System.out.println("Concierto con menos entradas vendidas: " + menosVendido.getArtista() + " (" + menosVendido.getEntradasVendidas().size() + " entradas)");
+        System.out.println("Concierto con más entradas vendidas: " + masVendido.getArtista());
+        System.out.println("Concierto con menos entradas vendidas: " + menosVendido.getArtista());
         System.out.println("================================================");
 
         System.out.println("\n--- ESTADO FINAL DE LOS USUARIOS ---");
