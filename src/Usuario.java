@@ -1,3 +1,4 @@
+import exceptions.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -73,24 +74,21 @@ public class Usuario {
     //============================Métodos extra=======================
 
         // 1. Comprar una entrada
-    public void comprarEntrada(Concierto concierto, Entrada.TipoEntrada tipo) {
+    public void comprarEntrada(Concierto concierto, Entrada.TipoEntrada tipo) throws ConciertoInactivoException, ConciertoYaAsistidoException, AforoCompletoException { {
 
         // 1.1 Comprobar si el concierto está activo
         if (!concierto.isActivo()) {
-            System.out.println("Error: El concierto no está activo.");
-            return;
+            throw new ConciertoInactivoException("Error: El concierto de " + concierto.getArtista() + " no está activo.");
         }
 
         // 1.2 Comprobar si el usuario ya ha asistido (está en el HashSet)
         if (conciertosAsistidos.contains(concierto)) {
-            System.out.println("Error: Ya has asistido a este concierto.");
-            return;
+            throw new ConciertoYaAsistidoException("Error: " + nombre + " ya tiene entrada para " + concierto.getArtista());
         }
 
         // 1.3 Comprobar si hay entradas disponibles
         if (concierto.entradasDisponibles() <= 0) {
-            System.out.println("Error: No quedan entradas disponibles.");
-            return;
+            throw new AforoCompletoException("Error: No quedan entradas para " + concierto.getArtista() + " en " + concierto.getCiudad());
         }
 
         // 1.4 Crear el objeto Entrada
