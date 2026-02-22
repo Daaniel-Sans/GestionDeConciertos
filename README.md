@@ -60,3 +60,26 @@ Se ha verificado mediante la herramienta de cobertura de IntelliJ que las rutas 
 > ![Cobertura de Código](img/Cobertura.png)
 
 ---
+
+## 🚀 Actualización: Gestión de Excepciones (Rama `testing`)
+
+Se ha evolucionado el proyecto para implementar un sistema de control de errores robusto mediante **Excepciones Personalizadas** en el paquete `exceptions`.
+
+### 1. Excepciones Implementadas
+Se han definido y lanzado las siguientes excepciones:
+
+* **En `Concierto`**:
+    * `CeroEntradasException`: Lanzada en `calcularPrecioMedio` si el concierto no tiene ventas, evitando divisiones por cero.
+* **En `Usuario`**:
+    * `ConciertoInactivoException`: Si se intenta comprar para un evento desactivado.
+    * `ConciertoYaAsistidoException`: Evita que un usuario compre dos veces para el mismo concierto.
+    * `AforoCompletoException`: Se lanza cuando se agota el cupo del evento.
+    * `ConciertoNoAsistidoException`: Impide valorar conciertos a los que el usuario no fue.
+    * `ValoracionIncorrectaException`: Valida que la nota esté estrictamente entre 0 y 10.
+
+### 2. Implementación en el Main (Handling)
+Siguiendo los nuevos requisitos del ejercicio, el `Main` se han provocado y capturado todas las excepciones definidas anteriormente:
+* **Provocación:** Se fuerzan situaciones de error (compras duplicadas, notas fuera de rango, conciertos inactivos) para validar el lanzamiento de las excepciones.
+* **Captura:** Se utilizan bloques `try-catch` con **multi-catch** para gestionar los errores y mostrar mensajes amigables por consola, permitiendo que el programa continúe su ejecución sin colapsar.
+
+> **Nota sobre la Rama Testing:** Todos los desarrollos relacionados con este ejercicio sobre validación de excepciones y pruebas de robustez se han realizado en la rama `testing` para mantener intacto el ejercicio original. 
