@@ -74,7 +74,7 @@ public class Usuario {
     //============================Métodos extra=======================
 
         // 1. Comprar una entrada
-    public void comprarEntrada(Concierto concierto, Entrada.TipoEntrada tipo) throws ConciertoInactivoException, ConciertoYaAsistidoException, AforoCompletoException { {
+    public void comprarEntrada(Concierto concierto, Entrada.TipoEntrada tipo) throws ConciertoInactivoException, ConciertoYaAsistidoException, AforoCompletoException {
 
         // 1.1 Comprobar si el concierto está activo
         if (!concierto.isActivo()) {
@@ -107,18 +107,16 @@ public class Usuario {
     }
 
         // 2. Valorar un concierto
-    public void valorar(Concierto concierto, int valoracion) throws Exception {
+    public void valorar(Concierto concierto, int valoracion) throws ConciertoNoAsistidoException, ValoracionIncorrectaException {
 
         // 2.1 Comprobar si asistió al concierto
         if (concierto == null || !conciertosAsistidos.contains(concierto)) {
-            // 2. LANZAMOS la excepción en lugar de solo imprimir
-            throw new Exception("No puedes valorar un concierto al que no has asistido.");
+            throw new ConciertoNoAsistidoException("No puedes valorar un concierto al que no has asistido.");
         }
 
         // 2.2 Comprobar que la nota esté entre 0 y 10
         if (valoracion < 0 || valoracion > 10) {
-            System.out.println("Error: La valoración debe estar entre 0 y 10.");
-            return;
+            throw new ValoracionIncorrectaException("Error: La valoración (" + valoracion + ") debe estar entre 0 y 10.");
         }
 
         // 2.3 Añadir o modificar la valoración en el HashMap
